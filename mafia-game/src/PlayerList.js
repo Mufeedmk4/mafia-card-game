@@ -1,6 +1,10 @@
 import React from 'react';
 
 const PlayerList = ({ players, onVote, gamePhase }) => {
+  const handleVote = (playerId) => {
+    onVote(playerId);
+  };
+
   return (
     <div>
       <h3>Player List</h3>
@@ -8,8 +12,8 @@ const PlayerList = ({ players, onVote, gamePhase }) => {
         {players.map(player => (
           <li key={player.id}>
             <span>{player.name}</span>
-            {gamePhase === 'night' && player.alive && (
-              <button onClick={() => onVote(player.id)}>Vote</button>
+            {gamePhase === 'day' && player.alive && (
+              <button onClick={() => handleVote(player.id)}>Vote</button>
             )}
           </li>
         ))}

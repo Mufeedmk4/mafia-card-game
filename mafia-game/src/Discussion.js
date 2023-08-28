@@ -1,37 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Discussion = ({ players, onElimination }) => {
-  const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-
-  const handleSelectPlayer = (playerId) => {
-    setSelectedPlayerId(playerId);
-  };
-
-  const handleEliminate = () => {
-    if (selectedPlayerId) {
-      onElimination(selectedPlayerId);
-      setSelectedPlayerId(null);
+const Discussion = ({ players, onElimination, isMafia }) => {
+  const handleEliminate = (playerId) => {
+    if (isMafia) {
+      onElimination(playerId);
     }
   };
 
   return (
     <div>
-      <h3>Discussion and Voting</h3>
-      <p>Select a player to vote:</p>
+      <h3>Discussion</h3>
       <ul>
         {players.map(player => (
-          player.alive && (
-            <li
-              key={player.id}
-              className={selectedPlayerId === player.id ? 'selected' : ''}
-              onClick={() => handleSelectPlayer(player.id)}
-            >
-              {player.name}
-            </li>
-          )
+          <li key={player.id}>
+            <span>{player.name}</span>
+            {player.alive && isMafia && (
+              <button onClick={() => handleEliminate(player.id)}>Eliminate</button>
+            )}
+          </li>
         ))}
       </ul>
-      <button onClick={handleEliminate}>Eliminate</button>
     </div>
   );
 };
